@@ -1,4 +1,3 @@
-const path = require("path");
 const fs = require("fs");
 
 const tree = "#";
@@ -6,7 +5,7 @@ const dx = 3;
 const dy = 1;
 
 const input = fs
-  .readFileSync(path.resolve(__dirname, "input.txt"), "utf-8")
+  .readFileSync("day03/input.txt", "utf-8")
   .trim()
   .split("\n")
   .map((line) => Array.from(line));

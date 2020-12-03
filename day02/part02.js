@@ -1,10 +1,6 @@
-const path = require("path");
 const fs = require("fs");
 
-const input = fs
-  .readFileSync(path.resolve(__dirname, "input.txt"), "utf-8")
-  .trim()
-  .split("\n");
+const input = fs.readFileSync("day02/input.txt", "utf-8").trim().split("\n");
 
 const validInputs = input.filter((line) => {
   const match = line.match(/^(\d+)-(\d+) (.): (.+)$/);
