@@ -7,11 +7,9 @@ const validInputs = input.filter((line) => {
   if (!match) {
     return false;
   }
-  const [, sMin, sMax, ch, passwd] = match;
-  const min = Number(sMin);
-  const max = Number(sMax);
+  const [, min, max, ch, passwd] = match;
   const count = Array.from(passwd).filter((c) => c === ch).length;
-  return min <= count && count <= max;
+  return Number(min) <= count && count <= Number(max);
 });
 
 console.log(validInputs.length);

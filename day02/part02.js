@@ -7,11 +7,9 @@ const validInputs = input.filter((line) => {
   if (!match) {
     return false;
   }
-  const [, si, sj, ch, passwd] = match;
-  const i = Number(si) - 1;
-  const j = Number(sj) - 1;
-  const first = passwd[i] === ch;
-  const second = passwd[j] === ch;
+  const [, i, j, ch, passwd] = match;
+  const first = passwd[Number(i) - 1] === ch;
+  const second = passwd[Number(j) - 1] === ch;
   return first !== second; // logical XOR on booleans
 });
 
