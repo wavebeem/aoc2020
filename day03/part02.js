@@ -1,7 +1,5 @@
 const fs = require("fs");
 
-const tree = "#";
-
 const input = fs
   .readFileSync("day03/input.txt", "utf-8")
   .trim()
@@ -12,7 +10,7 @@ const width = input[0].length;
 const height = input.length;
 
 function isTreeAt(x, y) {
-  return input[y][x % width] === tree;
+  return input[y][x % width] === "#";
 }
 
 function getHitCount(dx, dy) {
