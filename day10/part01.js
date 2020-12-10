@@ -5,7 +5,7 @@ const input = fs
   .trim()
   .split("\n")
   .map(Number)
-  .sort((a, b) => (a < b ? -1 : a > b ? 1 : 0));
+  .sort((a, b) => Math.sign(a - b));
 
 input.push(input[input.length - 1] + 3);
 
