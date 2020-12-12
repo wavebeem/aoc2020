@@ -18,16 +18,26 @@ function get(map, x, y) {
   return map?.[y]?.[x];
 }
 
+function findNextSeat(map, x, y, dx, dy) {
+  let ch;
+  do {
+    x += dx;
+    y += dy;
+    ch = get(map, x, y);
+  } while (ch === ".");
+  return ch;
+}
+
 function getNeighbors(map, x, y) {
   return [
-    get(map, x + 1, y + 0), // N
-    get(map, x + 1, y + 1), // NE
-    get(map, x + 0, y + 1), // E
-    get(map, x - 1, y + 1), // SE
-    get(map, x - 1, y + 0), // S
-    get(map, x - 1, y - 1), // SW
-    get(map, x + 0, y - 1), // W
-    get(map, x + 1, y - 1), // NW
+    findNextSeat(map, x, y, +1, +0), // N
+    findNextSeat(map, x, y, +1, +1), // NE
+    findNextSeat(map, x, y, +0, +1), // E
+    findNextSeat(map, x, y, -1, +1), // SE
+    findNextSeat(map, x, y, -1, +0), // S
+    findNextSeat(map, x, y, -1, -1), // SW
+    findNextSeat(map, x, y, +0, -1), // W
+    findNextSeat(map, x, y, +1, -1), // NW
   ].filter(Boolean);
 }
 
@@ -38,7 +48,7 @@ function evolve(map, x, y) {
   }
   if (
     ch === "#" &&
-    getNeighbors(map, x, y).filter((n) => n === "#").length >= 4
+    getNeighbors(map, x, y).filter((n) => n === "#").length >= 5
   ) {
     return "L";
   }
@@ -61,6 +71,12 @@ function countSeats(map) {
       });
     })
     .reduce((a, b) => a + b, 0);
+}
+
+async function sleep(time) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, time);
+  });
 }
 
 let prevMap = undefined;
