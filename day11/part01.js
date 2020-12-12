@@ -15,42 +15,39 @@ function step(map, fn) {
 }
 
 function get(map, x, y) {
-  return map?.[x]?.[y];
+  return map?.[y]?.[x];
 }
 
-function countNeighbors(map, x, y, fn) {
+function getNeighbors(map, x, y) {
   return [
-    get(map, y + 1, x + 0), // N
-    get(map, y + 1, x + 1), // NE
-    get(map, y + 0, x + 1), // E
-    get(map, y - 1, x + 1), // SE
-    get(map, y - 1, x + 0), // S
-    get(map, y - 1, x - 1), // SW
-    get(map, y + 0, x - 1), // W
-    get(map, y + 1, x - 1), // NW
-  ]
-    .filter(Boolean)
-    .map(fn)
-    .filter(Boolean).length;
+    get(map, x + 1, y + 0), // N
+    get(map, x + 1, y + 1), // NE
+    get(map, x + 0, y + 1), // E
+    get(map, x - 1, y + 1), // SE
+    get(map, x - 1, y + 0), // S
+    get(map, x - 1, y - 1), // SW
+    get(map, x + 0, y - 1), // W
+    get(map, x + 1, y - 1), // NW
+  ].filter(Boolean);
 }
 
 function evolve(map, x, y) {
   const ch = get(map, x, y);
-  if (
-    ch === "L" &&
-    countNeighbors(map, x, y, (n) => n === "L" || n === ".") === 8
-  ) {
+  if (ch === "L" && getNeighbors(map, x, y).every((n) => n !== "#")) {
     return "#";
   }
-  if (ch === "#" && countNeighbors(map, x, y, (n) => n === "#") >= 4) {
+  if (
+    ch === "#" &&
+    getNeighbors(map, x, y).filter((n) => n === "#").length >= 4
+  ) {
     return "L";
   }
   return ch;
 }
 
 function equals(map1, map2) {
-  return map1.every((_, y) => {
-    return map1.every((_, x) => {
+  return map1.every((row, y) => {
+    return row.every((_, x) => {
       return get(map1, x, y) === get(map2, x, y);
     });
   });
@@ -66,23 +63,14 @@ function countSeats(map) {
     .reduce((a, b) => a + b, 0);
 }
 
-function show(map) {
-  console.clear();
-  console.log(map.map((row) => row.join("")).join("\n"));
+async function main() {
+  let prevMap = undefined;
+  let currMap = input;
+  do {
+    prevMap = currMap;
+    currMap = step(currMap, evolve);
+  } while (!equals(prevMap, currMap));
+  console.log(countSeats(currMap));
 }
 
-function sleep() {
-  let i = 1e9;
-  while (i--) {}
-}
-
-let prevMap = undefined;
-let currMap = input;
-do {
-  prevMap = currMap;
-  currMap = step(currMap, evolve);
-  console.log(Date());
-  show(currMap);
-  sleep();
-} while (!equals(prevMap, currMap));
-console.log(countSeats(currMap));
+main();
