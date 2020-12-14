@@ -23,5 +23,7 @@ function findFirstBusRun(buses) {
   }
 }
 
+// TODO: The "Chinese remainder theorem" supposedly helps with this problem.
+// https://en.wikipedia.org/wiki/Chinese_remainder_theorem
 const time = findFirstBusRun(input);
 console.log(time);
