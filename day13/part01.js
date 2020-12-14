@@ -6,8 +6,7 @@ const start = Number(input[0]);
 const buses = input[1]
   .split(",")
   .filter((b) => b !== "x")
-  .map(Number)
-  .sort((a, b) => Math.sign(a - b));
+  .map(Number);
 
 function findFirstBus(start, buses) {
   let time = start;
